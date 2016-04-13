@@ -926,23 +926,21 @@ pub unsafe fn define_properties(cx: *mut JSContext, obj: HandleObject,
 
 #[cfg(test)]
 pub mod test {
-    use {JSCLASS_IS_GLOBAL, JSCLASS_GLOBAL_SLOT_COUNT};
-    use {JSCLASS_RESERVED_SLOTS_MASK, JSCLASS_RESERVED_SLOTS_SHIFT};
+    use {JSCLASS_IS_GLOBAL, JSCLASS_GLOBAL_SLOT_COUNT, JSCLASS_RESERVED_SLOTS_MASK};
     use super::Runtime;
+    use jsapi::JSCLASS_RESERVED_SLOTS_SHIFT;
     use jsapi::JS_Init;
     use jsapi::JSClass;
     use jsapi::{JS_NewGlobalObject, JS_PropertyStub, JS_StrictPropertyStub};
     use jsapi::{RootedObject, CompartmentOptions, OnNewGlobalHookOption};
     use jsapi::JS_GlobalObjectTraceHook;
 
-    use libc;
-
     use std::ptr;
 
     #[test]
     pub fn dummy() {
         static CLASS: JSClass = JSClass {
-            name: b"Global\0" as *const u8 as *const libc::c_char,
+            name: b"Global\0" as *const _ as *const _,
             flags: JSCLASS_IS_GLOBAL |
                 ((JSCLASS_GLOBAL_SLOT_COUNT & JSCLASS_RESERVED_SLOTS_MASK) <<
                  JSCLASS_RESERVED_SLOTS_SHIFT),
@@ -953,14 +951,14 @@ pub mod test {
             setProperty: None,
             enumerate: None,
             resolve: None,
-            convert: None,
+            mayResolve: None,
             finalize: None,
             call: None,
             hasInstance: None,
             construct: None,
             trace: Some(JS_GlobalObjectTraceHook),
 
-            reserved: [0 as *mut libc::c_void; 26]
+            reserved: [0 as *mut _; 23]
         };
 
         unsafe { assert!(JS_Init()); }

@@ -1,6 +1,6 @@
 
-use consts::{JSCLASS_RESERVED_SLOTS_MASK,JSCLASS_RESERVED_SLOTS_SHIFT,JSCLASS_GLOBAL_SLOT_COUNT,JSCLASS_IS_GLOBAL};
-use jsapi::JS_GlobalObjectTraceHook;
+use consts::{JSCLASS_RESERVED_SLOTS_MASK, JSCLASS_GLOBAL_SLOT_COUNT, JSCLASS_IS_GLOBAL};
+use jsapi::{JSCLASS_RESERVED_SLOTS_SHIFT, JS_GlobalObjectTraceHook};
 use conversions::*;
 use jsval::*;
 use rust::*;
@@ -17,13 +17,13 @@ static CLASS: &'static JSClass = &JSClass {
     setProperty: None,
     enumerate: None,
     resolve: None,
-    convert: None,
+    mayResolve: None,
     finalize: None,
     call: None,
     hasInstance: None,
     construct: None,
     trace: Some(JS_GlobalObjectTraceHook),
-    reserved: [0 as *mut _; 26]
+    reserved: [0 as *mut _; 23]
 };
 
 
