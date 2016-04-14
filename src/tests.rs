@@ -30,7 +30,7 @@ static CLASS: &'static JSClass = &JSClass {
 #[test]
 fn test_vec_conversion() {
     unsafe{
-        assert!(JS_Init());
+        //assert!(JS_Init());
     }
 
     let rt = Runtime::new();
@@ -71,11 +71,12 @@ fn test_vec_conversion() {
 #[test]
 fn stack_limit() {
     unsafe {
-        assert!(JS_Init());
+        //assert!(JS_Init());
     }
 
     let rt = Runtime::new();
     let cx = rt.cx();
+    let _ar = JSAutoRequest::new(cx);
 
     let h_option = OnNewGlobalHookOption::FireOnNewGlobalHook;
     let c_option = CompartmentOptions::default();
